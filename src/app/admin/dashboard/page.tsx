@@ -20,6 +20,7 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import Link from "next/link";
+import { PoetryText } from "@/components/PoetryText";
 
 interface Poem {
   id: string;
@@ -89,13 +90,17 @@ export default function AdminDashboard() {
         {poems.map((poem) => (
           <Card key={poem.id}>
             <CardHeader>
-              <CardTitle>{poem.title}</CardTitle>
+              <CardTitle>
+                <PoetryText>{poem.title}</PoetryText>
+              </CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-sm text-gray-500 mb-2">
                 Category: {poem.category}
               </p>
-              <p className="whitespace-pre-wrap">{poem.content}</p>
+              <p className="whitespace-pre-wrap">
+                <PoetryText>{poem.content}</PoetryText>
+              </p>
             </CardContent>
             <CardFooter className="space-x-2">
               <Button

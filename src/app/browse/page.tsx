@@ -1,13 +1,20 @@
-'use client'
+"use client";
 
-import { useState, useEffect } from 'react'
-import { db } from '@/lib/firebase'
-import { collection, query, where, getDocs, orderBy } from 'firebase/firestore'
-import Link from 'next/link'
-import { Button } from "@/components/ui/button"
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { useState, useEffect } from "react";
+import { db } from "@/lib/firebase";
+import { collection, query, where, getDocs, orderBy } from "firebase/firestore";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { PoetryText } from "@/components/PoetryText";
 
 interface Poem {
   id: string;
@@ -18,44 +25,49 @@ interface Poem {
 }
 
 export default function BrowsePoems() {
-  const [poems, setPoems] = useState<Poem[]>([])
-  const [filteredPoems, setFilteredPoems] = useState<Poem[]>([])
-  const [loading, setLoading] = useState(true)
-  const [searchTerm, setSearchTerm] = useState('')
-  const [searchCategory, setSearchCategory] = useState('all')
+  const [poems, setPoems] = useState<Poem[]>([]);
+  const [filteredPoems, setFilteredPoems] = useState<Poem[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchCategory, setSearchCategory] = useState("all");
 
   useEffect(() => {
     async function fetchPoems() {
       const poemsQuery = query(
-        collection(db, 'poems'),
-        where('status', '==', 'approved'),
-        orderBy('createdAt', 'desc')
-      )
-      const querySnapshot = await getDocs(poemsQuery)
-      const fetchedPoems = querySnapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      } as Poem))
-      setPoems(fetchedPoems)
-      setFilteredPoems(fetchedPoems)
-      setLoading(false)
+        collection(db, "poems"),
+        where("status", "==", "approved"),
+        orderBy("createdAt", "desc")
+      );
+      const querySnapshot = await getDocs(poemsQuery);
+      const fetchedPoems = querySnapshot.docs.map(
+        (doc) =>
+          ({
+            id: doc.id,
+            ...doc.data(),
+          } as Poem)
+      );
+      setPoems(fetchedPoems);
+      setFilteredPoems(fetchedPoems);
+      setLoading(false);
     }
 
-    fetchPoems()
-  }, [])
+    fetchPoems();
+  }, []);
 
   useEffect(() => {
-    const filtered = poems.filter(poem => {
-      const matchesSearch = poem.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                            poem.content.toLowerCase().includes(searchTerm.toLowerCase())
-      const matchesCategory = searchCategory === 'all' || poem.category === searchCategory
-      return matchesSearch && matchesCategory
-    })
-    setFilteredPoems(filtered)
-  }, [searchTerm, searchCategory, poems])
+    const filtered = poems.filter((poem) => {
+      const matchesSearch =
+        poem.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        poem.content.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesCategory =
+        searchCategory === "all" || poem.category === searchCategory;
+      return matchesSearch && matchesCategory;
+    });
+    setFilteredPoems(filtered);
+  }, [searchTerm, searchCategory, poems]);
 
   if (loading) {
-    return <div>Loading poems...</div>
+    return <div>Loading poems...</div>;
   }
 
   return (
@@ -84,11 +96,17 @@ export default function BrowsePoems() {
         {filteredPoems.map((poem) => (
           <Card key={poem.id}>
             <CardHeader>
-              <CardTitle>{poem.title}</CardTitle>
+              <CardTitle>
+                <PoetryText>{poem.title}</PoetryText>
+              </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-sm text-gray-500 mb-2">Category: {poem.category}</p>
-              <p className="line-clamp-3 whitespace-break-spaces">{poem.content}</p>
+              <p className="text-sm text-gray-500 mb-2">
+                Category: {poem.category}
+              </p>
+              <p className="line-clamp-3 whitespace-break-spaces">
+                <PoetryText>{poem.content}</PoetryText>
+              </p>
               <Button asChild className="mt-4">
                 <Link href={`/poem/${poem.id}`}>Read More</Link>
               </Button>
@@ -97,8 +115,10 @@ export default function BrowsePoems() {
         ))}
       </div>
       {filteredPoems.length === 0 && (
-        <p className="text-center mt-4">No poems found matching your search criteria.</p>
+        <p className="text-center mt-4">
+          No poems found matching your search criteria.
+        </p>
       )}
     </div>
-  )
+  );
 }
