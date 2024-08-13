@@ -54,10 +54,12 @@ export default function Home() {
     <div className="space-y-6">
       <section className="text-center">
         <h2 className="text-3xl font-bold mb-2">Welcome to nohaArchive</h2>
-        <p className="text-xl">Preserving and archive old nohas, qaseedas and other writings.</p>
+        <p className="text-xl">
+          Preserving and archive old nohas, qaseedas and other writings.
+        </p>
       </section>
 
-      <section className="flex justify-center space-x-4">
+      <section className="flex justify-center flex-wrap space-x-4">
         <Button asChild>
           <Link href="/browse">Browse Nohas and Qaseedas</Link>
         </Button>
@@ -66,8 +68,21 @@ export default function Home() {
         </Button>
       </section>
 
+      <section className="buy-me-a-coffee">
+        Support this website by buying me a coffee.{" "}
+        <a href="https://www.buymeacoffee.com/syedhassanaskri" target="_blank">
+          <img
+            src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png"
+            alt="Buy Me A Coffee"
+            style={{ height: "50px", display: "inline" }}
+          />
+        </a>
+      </section>
+
       <section>
-        <h3 className="text-2xl font-semibold mb-4">Featured Nohas and Qaseedas</h3>
+        <h3 className="text-2xl font-semibold mb-4">
+          Featured Nohas and Qaseedas
+        </h3>
         {loading ? (
           <p>Loading featured nohas and qaseedas...</p>
         ) : (

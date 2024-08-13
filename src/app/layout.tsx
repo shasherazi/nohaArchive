@@ -7,7 +7,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "nohaArchive",
-  description: "Preserving old folk poetry, with a focus on Urdu poetry",
+  description: "Preserving and archive old nohas, qaseedas and other writings.",
 };
 
 export default function RootLayout({

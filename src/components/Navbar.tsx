@@ -46,11 +46,25 @@ export function Navbar() {
       <Link href="/" className="text-xl font-bold">
         nohaArchive
       </Link>
-      <div className="relative">
+      <div className="relative flex">
+        {!user && (
+          <>
+            <Button className="ml-2 px-4 py-2 text-sm" variant="default">
+              <Link href="/login" onClick={closeMenu}>
+                Log In
+              </Link>
+            </Button>
+            <Button className="ml-2 px-4 py-2 text-sm" variant="outline">
+              <Link href="/signup" onClick={closeMenu}>
+                Sign Up
+              </Link>
+            </Button>
+          </>
+        )}
         <Button
           onClick={toggleMenu}
           variant="outline"
-          className="flex items-center"
+          className="ml-2 flex items-center"
         >
           <Menu className="h-4 w-4" />
         </Button>
@@ -84,7 +98,7 @@ export function Navbar() {
             >
               Browse Nohas and Qaseedas
             </Link>
-            {user ? (
+            {user && (
               <>
                 <div className="px-4 py-2 text-sm text-gray-700">
                   Welcome, {user.displayName}
@@ -101,23 +115,6 @@ export function Navbar() {
                     Log Out
                   </Button>
                 </div>
-              </>
-            ) : (
-              <>
-                <Link
-                  href="/login"
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                  onClick={closeMenu}
-                >
-                  Log In
-                </Link>
-                <Link
-                  href="/signup"
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                  onClick={closeMenu}
-                >
-                  Sign Up
-                </Link>
               </>
             )}
           </div>
