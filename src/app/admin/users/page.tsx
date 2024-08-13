@@ -23,6 +23,7 @@ import {
 interface User {
   id: string;
   email: string;
+  displayName: string | null;
   role: "user" | "moderator" | "admin";
 }
 
@@ -76,7 +77,7 @@ export default function UserManagement() {
         {users.map((user) => (
           <Card key={user.id}>
             <CardHeader>
-              <CardTitle>{user.email}</CardTitle>
+              <CardTitle>{user.email} {user.displayName && user.displayName}</CardTitle>
             </CardHeader>
             <CardContent>
               <p>Current Role: {user.role}</p>

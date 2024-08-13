@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter} from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 
@@ -17,9 +17,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`${inter.className} min-h-screen flex flex-col`}>
         <Navbar />
-        <main className="container mx-auto p-4">{children}</main>
+        <main className="flex-grow container mx-auto p-4">{children}</main>
         <footer className="p-4 border-t text-center">
           <p>&copy; 2024 nohaArchive. All rights reserved.</p>
         </footer>

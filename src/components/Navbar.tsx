@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
@@ -12,6 +12,7 @@ export function Navbar() {
   const user = useAuth();
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
 
   const handleLogout = async () => {
     try {
@@ -23,6 +24,22 @@ export function Navbar() {
   };
 
   const toggleMenu = () => setIsOpen(!isOpen);
+
+  // Close the menu if clicked outside or any button is clicked
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const closeMenu = () => setIsOpen(false);
 
   return (
     <nav className="flex justify-between items-center p-4 bg-gray-100">
@@ -38,11 +55,15 @@ export function Navbar() {
           <Menu className="h-4 w-4" />
         </Button>
         {isOpen && (
-          <div className="absolute whitespace-nowrap right-0 mt-2 bg-white rounded-md shadow-lg py-1 z-10">
+          <div
+            ref={menuRef}
+            className="absolute whitespace-nowrap right-0 mt-2 bg-white rounded-md shadow-lg py-1 z-10"
+          >
             {user && (user.role === "admin" || user.role === "moderator") && (
               <Link
                 href="/admin/dashboard"
                 className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                onClick={closeMenu}
               >
                 Admin Dashboard
               </Link>
@@ -51,24 +72,29 @@ export function Navbar() {
               <Link
                 href="/submit"
                 className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                onClick={closeMenu}
               >
-                Submit Poem
+                Submit a Noha or Qaseeda
               </Link>
             )}
             <Link
               href="/browse"
               className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+              onClick={closeMenu}
             >
-              Browse Poems
+              Browse Nohas and Qaseedas
             </Link>
             {user ? (
               <>
                 <div className="px-4 py-2 text-sm text-gray-700">
-                  Welcome, {user.email}
+                  Welcome, {user.displayName}
                 </div>
                 <div className="px-4 py-2">
                   <Button
-                    onClick={handleLogout}
+                    onClick={() => {
+                      handleLogout();
+                      closeMenu();
+                    }}
                     variant="destructive"
                     className=" px-4 py-2 text-sm"
                   >
@@ -81,12 +107,14 @@ export function Navbar() {
                 <Link
                   href="/login"
                   className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                  onClick={closeMenu}
                 >
                   Log In
                 </Link>
                 <Link
                   href="/signup"
                   className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                  onClick={closeMenu}
                 >
                   Sign Up
                 </Link>

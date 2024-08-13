@@ -67,7 +67,7 @@ export default function BrowsePoems() {
   }, [searchTerm, searchCategory, poems]);
 
   if (loading) {
-    return <div>Loading poems...</div>;
+    return <div>Loading nohas and qaseedas...</div>;
   }
 
   return (
@@ -75,7 +75,7 @@ export default function BrowsePoems() {
       <h1 className="text-2xl font-bold mb-4">Browse Poems</h1>
       <div className="flex space-x-4 mb-4">
         <Input
-          placeholder="Search poems..."
+          placeholder="Search nohas/qaseedas..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           className="flex-grow"
@@ -116,7 +116,7 @@ export default function BrowsePoems() {
       </div>
       {filteredPoems.length === 0 && (
         <p className="text-center mt-4">
-          No poems found matching your search criteria.
+          No nohas or qaseedas found matching your search criteria.
         </p>
       )}
     </div>

@@ -50,11 +50,11 @@ export default function PoemPage() {
   };
 
   if (loading) {
-    return <div>Loading poem...</div>;
+    return <div>Loading noha/qaseeda...</div>;
   }
 
   if (!poem) {
-    return <div>Poem not found</div>;
+    return <div>Noha or Qaseeda not found</div>;
   }
 
   return (

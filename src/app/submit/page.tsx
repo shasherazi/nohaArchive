@@ -23,7 +23,7 @@ export default function SubmitPoem() {
     setError(null)
 
     if (!user) {
-      setError('You must be logged in to submit a poem.')
+      setError('You must be logged in to submit a noha/qaseeda.')
       return
     }
 
@@ -38,18 +38,18 @@ export default function SubmitPoem() {
       })
       router.push('/') // Redirect to home page after successful submission
     } catch (error) {
-      setError('Failed to submit the poem. Please try again.')
+      setError('Failed to submit the noha/qaseeda. Please try again.')
       console.error(error)
     }
   }
 
   if (!user) {
-    return <p>Please log in to submit a poem.</p>
+    return <p>Please log in to submit a noha or qaseeda.</p>
   }
 
   return (
     <div className="max-w-2xl mx-auto mt-8">
-      <h1 className="text-2xl font-bold mb-4">Submit a Poem</h1>
+      <h1 className="text-2xl font-bold mb-4">Submit a Noha or Qaseeda</h1>
       {error && <p className="text-red-500 mb-4">{error}</p>}
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
@@ -62,7 +62,7 @@ export default function SubmitPoem() {
           />
         </div>
         <div>
-          <label htmlFor="content" className="block mb-1">Poem Content</label>
+          <label htmlFor="content" className="block mb-1">Noha Content</label>
           <Textarea
             id="content"
             value={content}
@@ -84,7 +84,7 @@ export default function SubmitPoem() {
             </SelectContent>
           </Select>
         </div>
-        <Button type="submit">Submit Poem</Button>
+        <Button type="submit">Submit Noha or Qaseeda</Button>
       </form>
     </div>
   )

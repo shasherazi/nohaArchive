@@ -86,7 +86,7 @@ export default function AdminDashboard() {
         </Button>
       )}
       <div className="space-y-4">
-        {poems.length === 0 && <div>No pending poems to review.</div>}
+        {poems.length === 0 && <div>No pending nohas or qaseedas to review.</div>}
         {poems.map((poem) => (
           <Card key={poem.id}>
             <CardHeader>

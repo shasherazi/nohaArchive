@@ -54,22 +54,22 @@ export default function Home() {
     <div className="space-y-6">
       <section className="text-center">
         <h2 className="text-3xl font-bold mb-2">Welcome to nohaArchive</h2>
-        <p className="text-xl">Preserving and celebrating Urdu folk poetry</p>
+        <p className="text-xl">Preserving and archive old nohas, qaseedas and other writings.</p>
       </section>
 
       <section className="flex justify-center space-x-4">
         <Button asChild>
-          <Link href="/browse">Browse Poems</Link>
+          <Link href="/browse">Browse Nohas and Qaseedas</Link>
         </Button>
         <Button asChild variant="outline">
-          <Link href="/submit">Submit a Poem</Link>
+          <Link href="/submit">Submit a Noha or Qaseeda</Link>
         </Button>
       </section>
 
       <section>
-        <h3 className="text-2xl font-semibold mb-4">Featured Poems</h3>
+        <h3 className="text-2xl font-semibold mb-4">Featured Nohas and Qaseedas</h3>
         {loading ? (
-          <p>Loading featured poems...</p>
+          <p>Loading featured nohas and qaseedas...</p>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {featuredPoems.map((poem) => (
@@ -95,7 +95,7 @@ export default function Home() {
           </div>
         )}
         {!loading && featuredPoems.length === 0 && (
-          <p>No featured poems available at the moment.</p>
+          <p>No featured nohas or qaseedas available at the moment.</p>
         )}
       </section>
     </div>
