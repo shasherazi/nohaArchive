@@ -22,6 +22,7 @@ export default function SignUp() {
         await setDoc(doc(db, "users", user.uid), {
           email: user.email,
           displayName: user.displayName,
+          avatar: user.photoURL,
           createdAt: new Date().toISOString(),
           role: "user",
         });

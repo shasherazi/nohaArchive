@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { auth } from "@/lib/firebase";
 import { signOut } from "firebase/auth";
 import { Menu } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export function Navbar() {
   const user = useAuth();
@@ -46,7 +47,7 @@ export function Navbar() {
       <Link href="/" className="text-xl font-bold">
         nohaArchive
       </Link>
-      <div className="relative flex">
+      <div className="relative flex items-center">
         {!user && (
           <>
             <Button className="ml-2 px-4 py-2 text-sm" variant="default">
@@ -68,10 +69,30 @@ export function Navbar() {
         >
           <Menu className="h-4 w-4" />
         </Button>
+        {user && (
+          <>
+            <Avatar className="ml-4 my-2">
+              <AvatarImage src={user.photoURL} />
+              <AvatarFallback>{user.displayName[0]}</AvatarFallback>
+            </Avatar>
+            <div className="px-4 py-2">
+              <Button
+                onClick={() => {
+                  handleLogout();
+                  closeMenu();
+                }}
+                variant="destructive"
+                className=" px-4 py-2 text-sm"
+              >
+                Log Out
+              </Button>
+            </div>
+          </>
+        )}
         {isOpen && (
           <div
             ref={menuRef}
-            className="absolute whitespace-nowrap right-0 mt-2 bg-white rounded-md shadow-lg py-1 z-10"
+            className="absolute whitespace-nowrap right-0 mt-40 bg-white rounded-md shadow-lg py-1 z-10"
           >
             {user && (user.role === "admin" || user.role === "moderator") && (
               <Link
@@ -98,25 +119,13 @@ export function Navbar() {
             >
               Browse Nohas and Qaseedas
             </Link>
-            {user && (
-              <>
-                <div className="px-4 py-2 text-sm text-gray-700">
-                  Welcome, {user.displayName}
-                </div>
-                <div className="px-4 py-2">
-                  <Button
-                    onClick={() => {
-                      handleLogout();
-                      closeMenu();
-                    }}
-                    variant="destructive"
-                    className=" px-4 py-2 text-sm"
-                  >
-                    Log Out
-                  </Button>
-                </div>
-              </>
-            )}
+            <Link
+              href="/about"
+              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+              onClick={closeMenu}
+            >
+              About
+            </Link>
           </div>
         )}
       </div>
