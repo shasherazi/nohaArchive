@@ -14,6 +14,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { PoetryText } from "@/components/PoetryText";
+import Head from "next/head";
 
 interface Poem {
   id: string;
@@ -52,6 +53,16 @@ export default function Home() {
 
   return (
     <div className="space-y-6">
+      <Head>
+        <meta property="og:image" content="<generated>" />
+        <meta property="og:image:type" content="<generated>" />
+        <meta property="og:image:width" content="<generated>" />
+        <meta property="og:image:height" content="<generated>" />
+        <meta name="twitter:image" content="<generated>" />
+        <meta name="twitter:image:type" content="<generated>" />
+        <meta name="twitter:image:width" content="<generated>" />
+        <meta name="twitter:image:height" content="<generated>" />
+      </Head>
       <section className="text-center">
         <h2 className="text-3xl font-bold mb-2">Welcome to nohaArchive</h2>
         <p className="text-xl">
