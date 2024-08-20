@@ -72,8 +72,13 @@ export function Navbar() {
         {user && (
           <>
             <Avatar className="ml-4 my-2">
+                {user.photoURL ?
               <AvatarImage src={user.photoURL} />
+              : <AvatarFallback></AvatarFallback>
+                }
+              {user.displayName ? 
               <AvatarFallback>{user.displayName[0]}</AvatarFallback>
+              : <AvatarFallback>U</AvatarFallback>}
             </Avatar>
             <div className="px-4 py-2">
               <Button
