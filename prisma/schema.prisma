@@ -1,0 +1,50 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id    Int             @id @default(autoincrement())
+  name  String?
+  email String          @unique
+  image String?
+  role  String          @default("user") // "user" or "admin"
+  poems Poem[]          @relation("SubmittedPoems")
+  logs  ModerationLog[]
+}
+
+model Poem {
+  id            Int             @id @default(autoincrement())
+  type          String // "noha", "qaseeda", "folk"
+  titleUrdu     String
+  titleEn       String?
+  contentUrdu   String
+  contentEn     String?
+  poet          String? // Original poet, if known
+  year          Int?
+  status        String          @default("pending") // "pending", "approved", "rejected"
+  submittedBy   User?           @relation("SubmittedPoems", fields: [submittedById], references: [id])
+  submittedById Int?
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  logs          ModerationLog[]
+}
+
+model ModerationLog {
+  id        Int      @id @default(autoincrement())
+  poem      Poem     @relation(fields: [poemId], references: [id])
+  poemId    Int
+  admin     User     @relation(fields: [adminId], references: [id])
+  adminId   Int
+  action    String // "approve", "reject", "edit"
+  details   String? // Optional: what was changed
+  createdAt DateTime @default(now())
+}
