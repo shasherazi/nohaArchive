@@ -18,23 +18,6 @@ export default async function HomePage() {
 
   return (
     <main className="min-h-screen flex flex-col">
-      {/* Header */}
-      <header className="w-full border-b">
-        <div className="container mx-auto flex items-center justify-between py-4 px-2">
-          <Link href="/" className="text-xl font-bold">
-            nohaArchive
-          </Link>
-          <nav className="flex gap-4">
-            <Link href="/poems" className="text-sm">
-              All Poems
-            </Link>
-            <Link href="/poems/add" className="text-sm">
-              Add Poem
-            </Link>
-          </nav>
-        </div>
-      </header>
-
       {/* Hero Section */}
       <section className="container mx-auto flex flex-col items-center text-center py-12 px-2">
         <h1 className="text-3xl md:text-5xl font-bold mb-4">

@@ -51,7 +51,7 @@ async function main() {
       contentEn: maybe(randomEnglishText(10 + Math.floor(Math.random() * 30))),
       poet: maybe(randomFrom(urduPoets)),
       year: maybe(1900 + Math.floor(Math.random() * 125)),
-      status: 'approved',
+      status: maybe("approved") || "pending",
       submittedById: admin.id,
     };
   });

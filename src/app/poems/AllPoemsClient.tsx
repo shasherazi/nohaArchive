@@ -1,11 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import SearchBar from "@/components/SearchBar";
 
 const PAGE_SIZE = 12;
 
@@ -17,11 +16,11 @@ export default function AllPoemsClient() {
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
 
-  async function fetchPoems(pageNum = 1) {
+  async function fetchPoems(pageNum = 1, qVal = q, deepVal = deep) {
     setLoading(true);
     const params = new URLSearchParams();
-    if (q) params.set("q", q);
-    if (deep) params.set("deep", "true");
+    if (qVal) params.set("q", qVal);
+    if (deepVal) params.set("deep", "true");
     params.set("page", pageNum.toString());
     params.set("limit", PAGE_SIZE.toString());
     const res = await fetch(`/api/poems?${params.toString()}`);
@@ -36,49 +35,24 @@ export default function AllPoemsClient() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
-  function handleSearch(e: React.FormEvent) {
-    e.preventDefault();
+  function handleSearch(qVal: string, deepVal: boolean) {
+    setQ(qVal);
+    setDeep(deepVal);
     setPage(1);
-    fetchPoems(1);
+    fetchPoems(1, qVal, deepVal);
   }
 
   const totalPages = Math.ceil(total / PAGE_SIZE);
 
   return (
     <div>
-      <form
-        className="flex flex-col gap-4 md:flex-row md:items-end mb-8"
-        onSubmit={handleSearch}
-      >
-        <div className="flex-1">
-          <Label htmlFor="search">Search</Label>
-          <Input
-            id="search"
-            placeholder="Search by title or content..."
-            value={q}
-            onChange={(e) => setQ(e.target.value)}
-            className="w-full"
-          />
-        </div>
-        <div className="flex items-center gap-2">
-          <input
-            type="checkbox"
-            id="deep"
-            checked={deep}
-            onChange={(e) => setDeep(e.target.checked)}
-            className="accent-primary"
-          />
-          <Label htmlFor="deep" className="text-sm">
-            Deep search (search in content)
-          </Label>
-        </div>
-        <button
-          type="submit"
-          className="bg-primary text-primary-foreground px-4 py-2 rounded w-full md:w-auto"
-        >
-          Search
-        </button>
-      </form>
+      <SearchBar
+        onSearch={handleSearch}
+        placeholder="Search by title or content..."
+        showDeepSearch={true}
+        initialQ={q}
+        initialDeep={deep}
+      />
       {loading ? (
         <div className="text-center text-muted-foreground">Loading...</div>
       ) : poems.length === 0 ? (
