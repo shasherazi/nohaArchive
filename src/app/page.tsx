@@ -3,15 +3,18 @@ import Link from "next/link";
 
 // Fetch poems from the API route
 async function getRecentPoems() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/poems`, {
-    cache: "no-store", // Always fetch fresh data
-  });
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/poems?limit=6`,
+    {
+      cache: "no-store",
+    },
+  );
   if (!res.ok) return [];
   return res.json();
 }
 
 export default async function HomePage() {
-  const poems = await getRecentPoems();
+  const { poems } = await getRecentPoems();
 
   return (
     <main className="min-h-screen flex flex-col">

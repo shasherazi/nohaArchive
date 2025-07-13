@@ -5,6 +5,9 @@ export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const q = searchParams.get("q") || "";
   const deep = searchParams.get("deep") === "true";
+  const limit = parseInt(searchParams.get("limit") || "12", 10);
+
+  const page = parseInt(searchParams.get("page") || "1", 10);
 
   const where = {
     status: "approved",
@@ -30,10 +33,14 @@ export async function GET(req: NextRequest) {
   const poems = await prisma.poem.findMany({
     where,
     orderBy: { createdAt: "desc" },
-    take: 100,
+    skip: (page - 1) * limit,
+    take: limit,
   });
 
-  return NextResponse.json(poems);
+  // For pagination: get total count
+  const total = await prisma.poem.count({ where });
+
+  return NextResponse.json({ poems, total });
 }
 
 export async function POST(req: NextRequest) {
